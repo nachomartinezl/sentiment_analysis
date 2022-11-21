@@ -3,58 +3,90 @@ import nltk
 import spacy
 import unicodedata
 
+
 from bs4 import BeautifulSoup
 from contractions import CONTRACTION_MAP
 from nltk.tokenize.toktok import ToktokTokenizer
+from nltk.stem.porter import PorterStemmer
 
+nltk.download('stopwords')
 
 tokenizer = ToktokTokenizer()
+stemmer = PorterStemmer()
 stopword_list = nltk.corpus.stopwords.words('english')
 nlp = spacy.load('en_core_web_sm')
 
 
 def remove_html_tags(text):
     # Put your code
+    #text = BeautifulSoup(html.unescape(text), "lxml").text
+    #text = re.sub(r"http[s]?://\S+", "", text)
+    #text = re.sub(r"\s+", " ", text)
+    remove_html = re.compile('<.*?>|&([a-z0-9]+|#[0-9]{1,6}|#x[0-9a-f]{1,6});')
+    text = re.sub(remove_html, '', text)
     return text
 
 
 def stem_text(text):
     # Put your code
+    tokens = tokenizer.tokenize(text)
+    stems = [stemmer.stem(token) for token in tokens]
+    text = " ".join(stems)
     return text
 
 
 def lemmatize_text(text):
     # Put your code
+    tokens = nlp(text)
+    lemmas = [token.lemma_ for token in tokens]
+    text = " ".join(lemmas)
     return text
 
 
 def expand_contractions(text, contraction_mapping=CONTRACTION_MAP):
     # Put your code
+    for word, replacement in CONTRACTION_MAP.items():
+        text = text.replace(word, replacement)     
     return text
 
 
 def remove_accented_chars(text):
     # Put your code
+    nfkd = unicodedata.normalize('NFKD', text)
+    ascii = nfkd.encode('ASCII', 'ignore')
+    text = ascii.decode('UTF-8')
     return text
 
 
 def remove_special_chars(text, remove_digits=False):
     # Put your code
+    chars= r"[^a-zA-Z0-9 ]+"
+    text = re.sub(chars, '', text)
+    if remove_digits:
+        numbers = r"[\d]"
+        text = re.sub(numbers, '', text)
     return text
 
 
 def remove_stopwords(text, is_lower_case=False, stopwords=stopword_list):
     # Put your code
+    if is_lower_case:
+        text = text.lower()
+    text_tokenize = tokenizer.tokenize(text)
+    text_new = [w for w in text_tokenize if not w in stopword_list]    
+    text = " ".join(text_new)
     return text
 
 
 def remove_extra_new_lines(text):
     # Put your code
+    text = re.sub('\n', ' ', text.strip())
     return text
 
 
 def remove_extra_whitespace(text):
     # Put your code
+    text = re.sub(' +', ' ', text.strip())
     return text
     
 
