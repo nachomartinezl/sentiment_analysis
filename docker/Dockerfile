@@ -22,5 +22,6 @@ ENV PATH=$PATH:/home/app/.local/bin
 # Install the python packages for this new user
 ADD requirements.txt .
 RUN pip3 install -r requirements.txt
-
+# Added this extra line to avoid error when loading 'en_core_web_sm' model via spacy.load()
+RUN python -m spacy download en_core_web_sm 
 WORKDIR /home/app
