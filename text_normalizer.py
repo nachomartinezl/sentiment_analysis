@@ -9,8 +9,6 @@ from contractions import CONTRACTION_MAP
 from nltk.tokenize.toktok import ToktokTokenizer
 from nltk.stem.porter import PorterStemmer
 
-nltk.download('stopwords')
-
 tokenizer = ToktokTokenizer()
 stemmer = PorterStemmer()
 stopword_list = nltk.corpus.stopwords.words('english')
@@ -72,9 +70,9 @@ def remove_stopwords(text, is_lower_case=False, stopwords=stopword_list):
     # Put your code
     if is_lower_case:
         text = text.lower()
-    text_tokenize = tokenizer.tokenize(text)
-    text_new = [w for w in text_tokenize if not w in stopword_list]    
-    text = " ".join(text_new)
+    tokens = tokenizer.tokenize(text)
+    no_stop = [w for w in tokens if not w in stopword_list]
+    text = " ".join(no_stop)
     return text
 
 
