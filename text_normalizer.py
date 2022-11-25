@@ -9,6 +9,7 @@ from contractions import CONTRACTION_MAP
 from nltk.tokenize.toktok import ToktokTokenizer
 from nltk.stem.porter import PorterStemmer
 
+nltk.download('stopwords')
 tokenizer = ToktokTokenizer()
 stemmer = PorterStemmer()
 stopword_list = nltk.corpus.stopwords.words('english')
