@@ -7,6 +7,7 @@ You can use `Docker` to easily install all the needed packages and libraries:
 
 ```bash
 $ docker build -t nlp_project -f docker/Dockerfile .
+$ docker build -t sp06 --build-arg USER_ID=$(id -u) --build-arg GROUP_ID=$(id -g) -f docker/Dockerfile_gpu .
 ```
 
 ### Run Docker
@@ -16,7 +17,15 @@ $ docker run --rm --net host -it \
     -v $(pwd):/home/app/src \
     nlp_project \
     bash
+
+$ docker run --rm --net host --gpus all -it \
+    -v $(pwd):/home/app/src \
+    --workdir /home/app/src \
+    sp06 \
+    bash
+
 ```
+
 
 ## Run Project
 
