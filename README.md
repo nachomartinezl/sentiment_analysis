@@ -1,4 +1,4 @@
-# Sprint Project 06: Sentiment Analysis with NLP
+# Sentiment Analysis with NLP
 > Sentiment Analysis on Movies Reviews
 
 ## Install
